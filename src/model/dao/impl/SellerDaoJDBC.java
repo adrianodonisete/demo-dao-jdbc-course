@@ -30,7 +30,7 @@ public class SellerDaoJDBC implements SellerDao {
 		PreparedStatement st = null;
 
 		try {
-			st = conn.prepareStatement(
+			st = conn.prepareStatement( 
 					"INSERT INTO seller \r\n"
 					+ "(Name, Email, BirthDate, BaseSalary, DepartmentId) \r\n" 
 					+ "VALUES \r\n" + "(?, ?, ?, ?, ?)",
@@ -96,8 +96,24 @@ public class SellerDaoJDBC implements SellerDao {
 
 	@Override
 	public void deleteById(Integer id) {
-		// TODO Auto-generated method stub
 
+		PreparedStatement st = null;
+
+		try {
+			st = conn.prepareStatement(
+					"DELETE FROM seller\r\n" + 
+					"WHERE Id = ?");
+
+			st.setInt(1, id);
+
+			st.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+
+		} finally {
+			DB.closeStatement(st);
+		}
 	}
 
 	@Override
